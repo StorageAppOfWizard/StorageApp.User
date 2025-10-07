@@ -15,23 +15,21 @@ namespace StorageApp.User.Application.Mappers
             };
         }
 
-        public static UserModel ToEntity(this CreateUserDTO createUserDTO)
+        public static UserModel ToEntity(this CreateUserDTO createUserDTO, string hashPassword)
         {
             return new UserModel
             {
                 UserName = createUserDTO.UserName,
                 Email = createUserDTO.Email,
-                PasswordHash = createUserDTO.Password,
-
-
+                PasswordHash = hashPassword,
             };
         }
 
-        public static void ToEntity(this UpdateUserDTO dto, UserModel user)
+        public static void ToEntity(this UpdateUserDTO dto, UserModel user, string hashPassword)
         {
             user.UserName = dto.UserName;
             user.Email = dto.Email;
-            user.PasswordHash = dto.Password;
+            user.PasswordHash = hashPassword;
         }
     }
 }

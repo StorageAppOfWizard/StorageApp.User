@@ -7,7 +7,7 @@ namespace StorageApp.User.Application.Validators
     {
         public UserValidator()
         {
-            RuleFor(x => x.Name)
+            RuleFor(x => x.UserName)
                 .NotEmpty().WithMessage("Field Name is required")
                 .Length(3, 20).WithMessage("Field must contain between 3 and 20 caracteres");
 

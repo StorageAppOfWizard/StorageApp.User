@@ -3,6 +3,7 @@ using StorageApp.User.Application.Contracts;
 using StorageApp.User.Application.DTO;
 using StorageApp.User.Application.Extension;
 using StorageApp.User.Application.Mappers;
+using StorageApp.User.Application.Security;
 using StorageApp.User.Application.Validators;
 using StorageApp.User.Domain.Contracts;
 
@@ -11,10 +12,12 @@ namespace StorageApp.User.Application.Services
     public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHasherPassword _hasherPassword;
 
-        public UserService(IUnitOfWork unitOfWork)
+        public UserService(IUnitOfWork unitOfWork, IHasherPassword hasherPassword)
         {
             _unitOfWork = unitOfWork;
+            _hasherPassword = hasherPassword;
         }
 
         public async Task<Result<List<UserDTO>>> GetAllAsync()
@@ -26,9 +29,9 @@ namespace StorageApp.User.Application.Services
             return Result.Success(entity.Select(u => u.ToDTO()).ToList());
         }
 
-        public async Task<Result<UserDTO>> GetByIdAsync(Guid id)
+        public async Task<Result<UserDTO>> GetByIdAsync(string id)
         {
-            if (id == Guid.Empty)
+            if (id == string.Empty)
                 return Result.Error("Invalid user ID provided.");
 
             var entity = await _unitOfWork.UserRepository.GetById(id);
@@ -49,7 +52,8 @@ namespace StorageApp.User.Application.Services
             if (existingUser != null)
                 return Result.Conflict($"User with the name '{existingUser.UserName}' already exists.");
 
-            var entity = dto.ToEntity();
+            var passwordHash = _hasherPassword.Hasher(dto.Password);
+            var entity = dto.ToEntity(passwordHash);
 
             await _unitOfWork.UserRepository.Create(entity);
             await _unitOfWork.CommitAsync();
@@ -71,15 +75,17 @@ namespace StorageApp.User.Application.Services
             if (entity is null)
                 return Result.NotFound("User Not Found");
 
-            dto.ToEntity(entity);
+            var passwordVerified = _hasherPassword.VerifyUpdatePassword(dto.Password, entity.PasswordHash);
+
+            dto.ToEntity(entity, passwordVerified);
             await _unitOfWork.CommitAsync();
 
             return Result.SuccessWithMessage("User Updated");
         }
 
-        public async Task<Result> DeleteAsync(Guid id)
+        public async Task<Result> DeleteAsync(string id)
         {
-            if (id == Guid.Empty)
+            if (id == string.Empty)
                 return Result.Error("Invalid User ID provided.");
 
             _unitOfWork.UserRepository.DeleteById(id);

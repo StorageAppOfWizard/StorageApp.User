@@ -35,7 +35,7 @@ namespace StorageApp.User.Api.Controllers
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetById(string id)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace StorageApp.User.Api.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
             try
             {

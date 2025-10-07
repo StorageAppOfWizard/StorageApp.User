@@ -16,7 +16,7 @@ namespace StorageApp.User.Infrastructure.Repositories
             return entity;
         }
 
-        public void DeleteById(Guid id, CancellationToken cancellationToken)
+        public void DeleteById(string id, CancellationToken cancellationToken)
         {
             var entity = _dbContext.Find(id);
             _dbContext.Remove(entity);
@@ -27,7 +27,7 @@ namespace StorageApp.User.Infrastructure.Repositories
             return await _dbContext.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public async Task<UserModel> GetById(Guid id,CancellationToken cancellationToken)
+        public async Task<UserModel> GetById(string id,CancellationToken cancellationToken)
         {
             return await _dbContext.FirstOrDefaultAsync(e => e.Id == id) ?? throw new Exception();
         }
