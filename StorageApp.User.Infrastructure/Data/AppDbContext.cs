@@ -11,5 +11,13 @@ namespace StorageApp.User.Infrastructure.Data
         }
 
         public DbSet<UserModel> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<UserModel>()
+                .Property(e => e.Role).HasConversion<string>();
+        }
     }
 }

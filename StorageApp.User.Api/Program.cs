@@ -25,6 +25,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IHasherPassword,HasherPassword>();
+builder.Services.AddTransient<IJwtService,JwtService>();
 
 var app = builder.Build();
 
