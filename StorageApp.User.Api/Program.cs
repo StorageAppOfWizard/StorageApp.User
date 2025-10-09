@@ -8,11 +8,18 @@ using StorageApp.User.Application.Services;
 using StorageApp.User.Domain.Contracts;
 using StorageApp.User.Infrastructure.Data;
 using StorageApp.User.Infrastructure.Repositories;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi();
 
@@ -24,8 +31,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddScoped<IHasherPassword,HasherPassword>();
 builder.Services.AddTransient<IJwtService,JwtService>();
+
 
 var app = builder.Build();
 

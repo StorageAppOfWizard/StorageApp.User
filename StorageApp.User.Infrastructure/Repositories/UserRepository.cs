@@ -32,10 +32,14 @@ namespace StorageApp.User.Infrastructure.Repositories
             return await _dbContext.FirstOrDefaultAsync(e => e.Id == id) ?? throw new Exception();
         }
 
-        public async Task<UserModel?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        public async Task<UserModel?> GetByEmail(string email, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.FirstOrDefaultAsync(b => b.UserName.ToLower() == name.ToLower(), cancellationToken);
-
+            return await _dbContext.FirstOrDefaultAsync(b => b.Email != null && b.Email == email, cancellationToken);
+        }
+        public async Task<UserModel?> GetByName(string email, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.FirstOrDefaultAsync(
+                b => b.UserName != null && b.UserName == email, cancellationToken);
         }
 
         //Update function is straight in CommitAsync in UnitOfWork

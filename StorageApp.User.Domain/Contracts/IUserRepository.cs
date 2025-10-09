@@ -8,7 +8,8 @@ namespace StorageApp.User.Domain.Contracts
         public Task<IEnumerable<UserModel>> GetAll(CancellationToken cancellationToken = default);
         public Task<UserModel> Create(UserModel entity, CancellationToken cancellationToken = default);
         public void DeleteById(string id, CancellationToken cancellationToken = default);
-        public Task<UserModel?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
+        public Task<UserModel?> GetByEmail(string email, CancellationToken cancellationToken = default);
+        public Task<UserModel?> GetByName(string name, CancellationToken cancellationToken = default);
 
     }
 }

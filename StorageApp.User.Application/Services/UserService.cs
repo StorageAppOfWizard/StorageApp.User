@@ -3,7 +3,6 @@ using StorageApp.User.Application.Contracts;
 using StorageApp.User.Application.DTO;
 using StorageApp.User.Application.Extension;
 using StorageApp.User.Application.Mappers;
-using StorageApp.User.Application.Security;
 using StorageApp.User.Application.Validators;
 using StorageApp.User.Domain.Contracts;
 
@@ -48,7 +47,7 @@ namespace StorageApp.User.Application.Services
             if (validation.Count != 0)
                 return Result.Invalid(validation);
 
-            var existingUser = await _unitOfWork.UserRepository.GetByNameAsync(dto.UserName);
+            var existingUser = await _unitOfWork.UserRepository.GetByName(dto.UserName);
             if (existingUser != null)
                 return Result.Conflict($"User with the name '{existingUser.UserName}' already exists.");
 
@@ -63,11 +62,11 @@ namespace StorageApp.User.Application.Services
 
         public async Task<Result> UpdateAsync(UpdateUserDTO dto)
         {
-            var validation = dto.ToValidateErrors(new UserValidator());
-            if (validation.Count != 0)
-                return Result.Invalid(validation);
+            //var validation = dto.ToValidateErrors(new UserValidator());
+            //if (validation.Count != 0)
+            //    return Result.Invalid(validation);
 
-            var existingUser = await _unitOfWork.UserRepository.GetByNameAsync(dto.UserName);
+            var existingUser = await _unitOfWork.UserRepository.GetByName(dto.UserName);
             if (existingUser != null)
                 return Result.Conflict($"User with the name '{existingUser.UserName}' already exists.");
 
@@ -92,6 +91,10 @@ namespace StorageApp.User.Application.Services
             await _unitOfWork.CommitAsync();
             return Result.SuccessWithMessage("User deleted successfully.");
         }
+
+   
+
+
 
     }
 }

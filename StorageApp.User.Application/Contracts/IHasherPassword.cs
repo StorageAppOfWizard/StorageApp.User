@@ -1,4 +1,4 @@
-﻿namespace StorageApp.User.Application.Security
+﻿namespace StorageApp.User.Application.Contracts
 {
     public interface IHasherPassword
     {

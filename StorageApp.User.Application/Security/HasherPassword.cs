@@ -1,4 +1,6 @@
-﻿namespace StorageApp.User.Application.Security
+﻿using StorageApp.User.Application.Contracts;
+
+namespace StorageApp.User.Application.Security
 {
     public class HasherPassword : IHasherPassword
     {

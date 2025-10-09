@@ -1,15 +1,20 @@
 ﻿using FluentValidation;
 using StorageApp.User.Application.DTO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace StorageApp.User.Application.Validators
 {
-    public class UserValidator : AbstractValidator<CreateUserDTO>
+    public class UserRegisterValidator :AbstractValidator<RegisterUserDTO>
     {
-        public UserValidator()
-        {
+        public UserRegisterValidator() {
+
             RuleFor(x => x.UserName)
-                .NotEmpty().WithMessage("Field Name is required")
-                .Length(3, 20).WithMessage("Field must contain between 3 and 20 caracteres");
+               .NotEmpty().WithMessage("Field Name is required")
+               .Length(3, 20).WithMessage("Field must contain between 3 and 20 caracteres");
 
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Field E-mail is required")
@@ -26,13 +31,8 @@ namespace StorageApp.User.Application.Validators
                 .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character.");
 
             RuleFor(x => x.PasswordConfirmed)
-                .NotEmpty().WithMessage("Field Confirm Password is required")
+                .NotEmpty().WithMessage("Fiel Confirm Password is required")
                 .Equal(x => x.Password).WithMessage("Passwords do not match");
-
-            RuleFor(x => x.Role)
-                .NotEmpty().WithMessage("Field Role is required");
-                
-
         }
     }
 }

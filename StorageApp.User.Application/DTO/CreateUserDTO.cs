@@ -1,10 +1,9 @@
-﻿namespace StorageApp.User.Application.DTO
+﻿using StorageApp.User.Domain.Enum;
+
+namespace StorageApp.User.Application.DTO
 {
-    public class CreateUserDTO
+    public class CreateUserDTO :RegisterUserDTO
     {
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string PasswordConfirmed { get; set; }
+        public List<RoleType> Role { get; set; }
     }
 }
