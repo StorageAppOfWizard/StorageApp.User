@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StorageApp.User.Api.Extensions;
 using StorageApp.User.Application.Contracts;
 using StorageApp.User.Application.DTO;
-using StorageApp.User.Application.Mappers;
 
 namespace StorageApp.User.Api.Controllers
 {
 
     [ApiController]
-    [Route("/auth")]
+    [Route("auth")]
     public class AuthController : Controller
     {
         private readonly IJwtService _jwtService;
@@ -19,21 +19,25 @@ namespace StorageApp.User.Api.Controllers
             _authService = authService;
         }
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDTO dto)
         {
             var result = await _authService.LoginAsync(dto);
+            if(!result.IsSuccess)
+               return result.ToActionResult();
 
-            return Ok(_jwtService.GenerateToken(result));
+            var token = _jwtService.GenerateToken(result);
+
+            return Ok(new {token});
         }
 
-        [HttpPost("/register")]
+        [HttpPost("register")]
 
         public async Task<IActionResult> Register([FromBody] RegisterUserDTO dto)
         {
             var result = await _authService.RegisterAsync(dto);
 
-            return Ok(result);
+            return result.ToActionResult();
         }
     }
 }

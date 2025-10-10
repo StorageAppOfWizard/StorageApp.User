@@ -23,6 +23,7 @@ namespace StorageApp.User.Application.Mappers
                 UserName = dto.UserName,
                 Email = dto.Email,
                 PasswordHash = hashPassword,
+                Role = dto.Role
             };
         }
 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.EntityFrameworkCore;
+using StorageApp.User.Api.Middlewares;
 using StorageApp.User.Application.Contracts;
 using StorageApp.User.Application.Security;
 using StorageApp.User.Application.Services;
@@ -23,8 +24,6 @@ builder.Services.AddControllers()
 builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi();
 
-
-
 var connectionstring = builder.Configuration.GetConnectionString("DefaultConnectionString");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionstring));
@@ -39,6 +38,7 @@ builder.Services.AddTransient<IJwtService,JwtService>();
 var app = builder.Build();
 
 
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -49,6 +49,8 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty;
     });
 }
+
+app.UseMiddleware<MiddlewareException>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

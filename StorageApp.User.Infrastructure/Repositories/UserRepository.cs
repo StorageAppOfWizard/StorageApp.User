@@ -29,7 +29,7 @@ namespace StorageApp.User.Infrastructure.Repositories
 
         public async Task<UserModel> GetById(string id,CancellationToken cancellationToken)
         {
-            return await _dbContext.FirstOrDefaultAsync(e => e.Id == id) ?? throw new Exception();
+            return await _dbContext.FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<UserModel?> GetByEmail(string email, CancellationToken cancellationToken = default)

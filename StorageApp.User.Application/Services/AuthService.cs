@@ -24,7 +24,9 @@ namespace StorageApp.User.Application.Services
         public async Task<Result<UserModel>> LoginAsync(LoginUserDTO dto)
         {
             var existingUser = await _unitOfWork.UserRepository.GetByEmail(dto.Email);
-            if (!ValidateUser(existingUser, dto)) return Result.Unauthorized();
+
+            if (!ValidateUser(existingUser, dto))
+                return Result.Unauthorized();
 
             return Result.Success(existingUser); 
         }

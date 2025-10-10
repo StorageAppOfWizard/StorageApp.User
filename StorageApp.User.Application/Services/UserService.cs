@@ -5,6 +5,7 @@ using StorageApp.User.Application.Extension;
 using StorageApp.User.Application.Mappers;
 using StorageApp.User.Application.Validators;
 using StorageApp.User.Domain.Contracts;
+using StorageApp.User.Domain.Entity;
 
 namespace StorageApp.User.Application.Services
 {
@@ -41,7 +42,7 @@ namespace StorageApp.User.Application.Services
             return Result.Success(entity.ToDTO());
 
         }
-        public async Task<Result> CreateAsync(CreateUserDTO dto)
+        public async Task<Result<UserModel>> CreateAsync(CreateUserDTO dto)
         {
             var validation = dto.ToValidateErrors(new UserValidator());
             if (validation.Count != 0)
@@ -57,7 +58,7 @@ namespace StorageApp.User.Application.Services
             await _unitOfWork.UserRepository.Create(entity);
             await _unitOfWork.CommitAsync();
 
-            return Result.SuccessWithMessage("User Created");
+            return Result.Created(entity);
         }
 
         public async Task<Result> UpdateAsync(UpdateUserDTO dto)
@@ -84,15 +85,19 @@ namespace StorageApp.User.Application.Services
 
         public async Task<Result> DeleteAsync(string id)
         {
-            if (id == string.Empty)
-                return Result.Error("Invalid User ID provided.");
+
+            var entity = await _unitOfWork.UserRepository.GetById(id);
+
+            if (entity is null)
+                return Result.NotFound("Invalid User ID provided.");
 
             _unitOfWork.UserRepository.DeleteById(id);
             await _unitOfWork.CommitAsync();
             return Result.SuccessWithMessage("User deleted successfully.");
         }
 
-   
+
+        public void Dispose() => _unitOfWork.Dispose();
 
 
 
