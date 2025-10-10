@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StorageApp.User.Api.Extensions;
 using StorageApp.User.Application.Contracts;
 using StorageApp.User.Application.DTO;
@@ -19,6 +20,9 @@ namespace StorageApp.User.Api.Controllers
             _authService = authService;
         }
 
+
+
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDTO dto)
         {
@@ -31,6 +35,7 @@ namespace StorageApp.User.Api.Controllers
             return Ok(new {token});
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
 
         public async Task<IActionResult> Register([FromBody] RegisterUserDTO dto)

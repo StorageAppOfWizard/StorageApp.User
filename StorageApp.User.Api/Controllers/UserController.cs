@@ -1,4 +1,4 @@
-﻿using Ardalis.Result;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StorageApp.User.Api.Extensions;
 using StorageApp.User.Application.Contracts;
@@ -8,6 +8,7 @@ namespace StorageApp.User.Api.Controllers
 {
     [ApiController]
     [Route("admin/user")]
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -24,6 +25,7 @@ namespace StorageApp.User.Api.Controllers
             return result.ToActionResult();
         }
 
+
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetById(string id)
         {
@@ -37,6 +39,7 @@ namespace StorageApp.User.Api.Controllers
             var result = await _userService.CreateAsync(dto);
             return result.ToActionResult();
         }
+
 
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateUserDTO dto)

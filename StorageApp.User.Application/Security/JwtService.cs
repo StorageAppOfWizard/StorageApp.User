@@ -21,7 +21,7 @@ namespace StorageApp.User.Application.Security
         public string GenerateToken(UserModel user)
         {
             var handler = new JwtSecurityTokenHandler();
-            var secreteKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
+            var secreteKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
             var credentials = new SigningCredentials(secreteKey, SecurityAlgorithms.HmacSha256Signature);
 
