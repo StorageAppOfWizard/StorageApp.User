@@ -40,7 +40,7 @@ namespace StorageApp.User.Api.Controllers
             return result.ToActionResult();
         }
 
-
+        [AllowAnonymous]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateUserDTO dto)
         {
