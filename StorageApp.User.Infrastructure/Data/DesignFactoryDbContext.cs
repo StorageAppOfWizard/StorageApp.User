@@ -9,7 +9,7 @@ namespace StorageApp.User.Infrastructure.Data
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            optionsBuilder.UseSqlServer("Server=localhost,1433;Database=users;User Id=sa;Password=Lagavi30!;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=sqlserverdb,1433;Database=users;User Id=sa;Password=Lagavi30!;TrustServerCertificate=True;");
 
             return new AppDbContext(optionsBuilder.Options);
         }

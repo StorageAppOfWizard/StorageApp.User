@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using StorageApp.User.Api.Configurations;
+using StorageApp.User.Infrastructure.Data;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +29,21 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "StorageApp.User API V1");
         c.RoutePrefix = string.Empty;
     });
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<AppDbContext>();
+            context.Database.Migrate(); // Isso executa as migrations pendentes
+        }
+        catch (Exception ex)
+        {
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "Erro ao aplicar migrations");
+        }
+    }
 }
 
 app.UseCustomMiddlewares();
