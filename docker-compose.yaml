@@ -1,5 +1,4 @@
 services:
-
   sqlserver-user:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserverdb
@@ -13,11 +12,11 @@ services:
 
   backend:
     build: ./
-    container_name: backend
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+    container_name: backend-user
     ports:
       - 5000:5000
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
       - sqlserver-user
     networks:

@@ -18,6 +18,7 @@ namespace StorageApp.User.Api.Controllers
             _userService = userService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
