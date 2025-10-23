@@ -30,6 +30,8 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty;
     });
 
+
+
     using (var scope = app.Services.CreateScope())
     {
         var services = scope.ServiceProvider;

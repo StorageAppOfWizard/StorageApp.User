@@ -13,6 +13,13 @@ namespace StorageApp.User.Api.Configurations
 
             services.AddScoped<IHasherPassword, HasherPassword>();
             services.AddTransient<IJwtService, JwtService>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigins", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+                });
+            });
 
             var key = Encoding.UTF8.GetBytes(configuration["Jwt:Key"]);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
