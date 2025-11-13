@@ -42,7 +42,8 @@ namespace StorageApp.User.Application.Security
             var ci = new ClaimsIdentity();
 
             ci.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-            ci.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+            ci.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
+           
 
             foreach(var role in user.Role)
             {
