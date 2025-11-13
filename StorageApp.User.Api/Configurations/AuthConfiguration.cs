@@ -13,6 +13,7 @@ namespace StorageApp.User.Api.Configurations
 
             services.AddScoped<IHasherPassword, HasherPassword>();
             services.AddTransient<IJwtService, JwtService>();
+           
 
             var key = Encoding.UTF8.GetBytes(configuration["Jwt:Key"]);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -17,6 +17,14 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+    });
+});
+
 
 var app = builder.Build();
 
@@ -29,6 +37,8 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "StorageApp.User API V1");
         c.RoutePrefix = string.Empty;
     });
+
+
 
     using (var scope = app.Services.CreateScope())
     {
@@ -47,7 +57,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCustomMiddlewares();
-app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCors("AllowSpecificOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
