@@ -34,6 +34,7 @@ namespace StorageApp.User.Api.Controllers
             return result.ToActionResult();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserDTO dto)
         {
