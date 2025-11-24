@@ -9,6 +9,12 @@ services:
       - "1434:1433"
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd", "-U", "sa", "-P", "Lagavi30!", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   backend:
     build: ./

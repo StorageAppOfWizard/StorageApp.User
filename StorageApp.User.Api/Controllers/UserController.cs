@@ -26,7 +26,7 @@ namespace StorageApp.User.Api.Controllers
             return result.ToActionResult();
         }
 
-    
+        [AllowAnonymous]
         [HttpGet("{id:Guid}")]
         public async Task<IActionResult> GetById(string id)
         {

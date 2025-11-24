@@ -9,8 +9,20 @@ namespace StorageApp.User.Api.Configurations
     {
         public static void AddInfrastructureConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString")));
+            services.AddDbContext<AppDbContext>(dbOptions =>
+                dbOptions.UseSqlServer(
+                    configuration.GetConnectionString("DefaultConnectionString"),
+                    sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(10),
+                            errorNumbersToAdd: null
+                        );
+                    }
+                )
+                .EnableDetailedErrors()
+            );
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

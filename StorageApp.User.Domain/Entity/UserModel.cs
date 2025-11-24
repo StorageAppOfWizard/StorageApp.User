@@ -6,6 +6,7 @@ namespace StorageApp.User.Domain.Entity
     public class UserModel :IdentityUser
     {
         public string UserName { get; set; }
-        public List<RoleType> Role { get; set; } = new List<RoleType>() { RoleType.Member };
+        // public List<RoleType> Role { get; set; } = new List<RoleType>() { RoleType.Member };
+        public List<RoleType> Role { get; set; } = new List<RoleType>() { RoleType.Admin };
     }
 }
