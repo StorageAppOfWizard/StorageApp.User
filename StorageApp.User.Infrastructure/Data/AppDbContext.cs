@@ -27,10 +27,11 @@ namespace StorageApp.User.Infrastructure.Data
 
             builder.Entity<UserModel>()
                 .Property(u => u.Role)
+                .HasColumnType("jsonb")
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, options),
                     v => JsonSerializer.Deserialize<List<RoleType>>(v, options) ?? new List<RoleType>()
-                );
+                ).IsRequired();
 
         }
     }

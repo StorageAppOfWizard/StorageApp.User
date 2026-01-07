@@ -1,27 +1,40 @@
 services:
-  sqlserver-user:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserverdbuser
-    environment:
-      - SA_PASSWORD=Lagavi30!
-      - ACCEPT_EULA=Y
-    ports:
-      - "1434:1433"
-    networks:
-      - app-network
+  dbpostgresUser:
+      container_name: dbpostgresUser
+      image: postgres:latest
+      environment:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: Lagavi30!
+          POSTGRES_DB: products_azamara
+          POOLING: "true"
+          PGDATA: /var/lib/postgresql/data/pgdata
+      ports:
+          - "5433:5432"
+      volumes:
+          - user_data:/var/lib/postgresql/data
+      healthcheck:
+          test: ["CMD-SHELL", "pg_isready -U root"]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+      networks:
+          - app-network
 
-  backend:
-    build: ./
-    container_name: backend-user
-    ports:
-      - 5000:5000
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    depends_on:
-      - sqlserver-user
-    networks:
-      - app-network
+  # backend:
+  #   build: ./
+  #   container_name: backend-user
+  #   ports:
+  #     - 5000:5000
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   depends_on:
+  #     - dbpostgresUser
+  #   networks:
+  #     - app-network
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  user_data:

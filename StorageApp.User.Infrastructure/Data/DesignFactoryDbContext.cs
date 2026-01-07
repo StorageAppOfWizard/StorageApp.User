@@ -9,7 +9,7 @@ namespace StorageApp.User.Infrastructure.Data
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            optionsBuilder.UseSqlServer("Server=sqlserver-user;Database=users;User Id=sa;Password=Lagavi30!;TrustServerCertificate=True;");
+            optionsBuilder.UseNpgsql("User ID=root;Password=Lagavi30!;Host=localhost;Port=5433;Database=users;Pooling=true;MinPoolSize=0;MaxPoolSize=100;Connection Lifetime=0;");
 
             return new AppDbContext(optionsBuilder.Options);
         }

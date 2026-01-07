@@ -10,7 +10,7 @@ namespace StorageApp.User.Api.Configurations
         public static void AddInfrastructureConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString")));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnectionString")));
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
