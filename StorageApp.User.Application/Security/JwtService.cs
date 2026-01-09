@@ -10,7 +10,7 @@ namespace StorageApp.User.Application.Security
 {
     public class JwtService : IJwtService
     {
-        private int MAX_HOURS_EXPIRE_TOKEN = 4;
+        private int MAX_HOURS_EXPIRE_TOKEN = 5000; //mudar  
         private readonly IConfiguration _configuration;
 
         public JwtService(IConfiguration configuration)
