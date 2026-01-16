@@ -12,6 +12,8 @@ namespace StorageApp.User.Application.Validators
                    .NotEmpty().WithMessage("Field E-mail is required")
                    .EmailAddress().WithMessage("Field must be a valid e-mail")
                    .Length(3, 100).WithMessage("Field must contain between 3 and 100 caracteres");
+            RuleFor(x => x.Password)
+                    .NotEmpty().WithMessage("Field E-mail is required");
         }
     }
 }

@@ -23,10 +23,14 @@ namespace StorageApp.User.Application.Services
 
         public async Task<Result<UserModel>> LoginAsync(LoginUserDTO dto)
         {
+            var validation = dto.ToValidateErrors(new UserLoginValidator());
+            if (validation.Count != 0)
+                return Result.Invalid(validation);
+
             var existingUser = await _unitOfWork.UserRepository.GetByEmail(dto.Email);
 
             if (!ValidateUser(existingUser, dto))
-                return Result.Unauthorized();
+                return Result.Forbidden("Email or Password invalid");
 
             return Result.Success(existingUser); 
         }
