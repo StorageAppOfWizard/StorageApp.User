@@ -3,10 +3,9 @@ services:
       container_name: dbpostgresUser
       image: postgres:latest
       environment:
-          ConnectionStrings__DefaultConnectionString: User ID=root;Password=Lagavi30!;Host=dbpostgresUser;Database=users;Pooling=true;MinPoolSize=0;MaxPoolSize=100;Connection Lifetime=0;
           POSTGRES_USER: root
           POSTGRES_PASSWORD: Lagavi30!
-          POSTGRES_DB: users
+          POSTGRES_DB: root
           POOLING: "true"
           PGDATA: /var/lib/postgresql/data/pgdata
       ports:
@@ -27,7 +26,8 @@ services:
     ports:
       - 5000:5000
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      ConnectionStrings__DefaultConnectionString: User ID=root;Password=Lagavi30!;Host=dbpostgresUser;Database=root;Pooling=true;MinPoolSize=0;MaxPoolSize=100;Connection Lifetime=0;
+      ASPNETCORE_ENVIRONMENT: Development
     depends_on:
       - dbpostgresUser
     networks:
